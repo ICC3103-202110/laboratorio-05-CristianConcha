@@ -1,8 +1,11 @@
 
 
-const prompt = require('prompt-sync')();
+
 const { printTable } = require('console-table-printer');
-var inquirer = require('inquirer');
+const inquirer = require('inquirer');
+const figlet = require('figlet');
+const chalk = require('chalk');
+
 
 
 const view = require('./view.js');
@@ -12,11 +15,15 @@ const update = require('./update.js');
 function app(amount, tip) {
     
     console.clear();
+    //Name
 
+    console.log(chalk.magenta(figlet.textSync("Tip Calculator App")));
+    
     //Table
     const t = [{ "Bill Amount": `$ ${amount}`, "Tip (%)": `$ ${tip}`, "Tip": `$ ${amount}`, "Total": `$ ${amount}`}];
     printTable(t);
 
+    //Questions
     inquirer
         .prompt([
         {   type: 'input',
