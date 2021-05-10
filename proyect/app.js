@@ -1,23 +1,23 @@
 
 
+const prompt = require('prompt-sync')();
+const { printTable } = require('console-table-printer');
+
+
 const view = require('./view.js');
 const update = require('./update.js');
 
 
-function app(counter) {
+function app(amount, tip) {
     
-    while (true) {
-        
-        const currentView = view(counter);
-        console.clear();
-        console.log(currentView);
-        
-        const prompt = require('prompt-sync')();
-        const msg = prompt('What would you do? ');
-        counter = update(msg, counter);
+    console.clear();
 
-        if (counter === false) break;
+    //Table
+    const t = [{ "Bill Amount": `$ ${amount}`, "Tip (%)": `$ ${tip}`, "Tip": `$ ${amount}`, "Total": `$ ${amount}`}];
+    printTable(t);
 
-    }
+    
+
+    
 }
-app(0);
+app(0,0);
