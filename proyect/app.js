@@ -1,54 +1,29 @@
+const { printTable } = require('console-table-printer')
+const {questions} = require('./view')
 
 
-
-const { printTable } = require('console-table-printer');
-const inquirer = require('inquirer');
-const figlet = require('figlet');
-const chalk = require('chalk');
-
-
-
-const view = require('./view.js');
-const update = require('./update.js');
-
-
-function app(amount, tip) {
+async function app(state, update, view) {
     
-    console.clear();
-    //Name
-
-    console.log(chalk.magenta(figlet.textSync("Tip Calculator App")));
+    while (true) {
+        const { model, currentView } = state
+        const { title, table } = currentView
     
-    //Table
-    const t = [{ "Bill Amount": `$ ${amount}`, "Tip (%)": `$ ${tip}`, "Tip": `$ ${amount}`, "Total": `$ ${amount}`}];
-    printTable(t);
+        console.clear()
+        console.log(title)
+        printTable(table)
 
-    //Questions
-    inquirer
-        .prompt([
-        {   type: 'input',
-            name: 'amount',
-            message: 'Bill Amount?',
-            default: amount
-            },
-            
-        {   type: 'input',
-            name: 'tip',
-            message: 'Tip(%)?',
-            default: tip
-            }
-        ])
-
-    .then(answers => {
-        amount = answers.amount;
-        tip = answers.tip;
-    })
-
-
+        const { billAmount , percentage} = await questions(model)
+        const updatedModel = update(billAmount, percentage, model)
     
+        state = {
+            ...state,
+            model: updatedModel,
+            currentView: view(updatedModel)
+        }
+    }
 
-    
-
-    
 }
-app(0,0);
+
+module.exports = {
+    app
+}
