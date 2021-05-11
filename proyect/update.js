@@ -4,14 +4,14 @@ function getTip(amount, tipPorcentage) {
     return (amount * tipPorcentage / 100);
 }
 
-function getTotal(amount, tip) {
-    return amount + tip;
+function getTotal(amount, newtip) {
+    return amount + newtip;
 }
 
 function update(billAmount, percentage, model) {
     
-    const newTip = getTip(billAmount, percentage)
-    const newTotal = getTotal(billAmount, newTip)
+    const newTip = getTip(Number(billAmount),Number(percentage))
+    const newTotal = getTotal(Number(billAmount), Number(newTip))
 
     return {
         ...model,
